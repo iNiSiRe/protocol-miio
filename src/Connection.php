@@ -4,6 +4,7 @@ namespace inisire\Protocol\MiIO;
 
 use inisire\fibers\Contract\Socket;
 use inisire\fibers\Contract\SocketFactory;
+use inisire\Protocol\ByteBuffer;
 use Psr\Log\LoggerInterface;
 use inisire\Protocol\MiIO\Packet\Call;
 use inisire\Protocol\MiIO\Packet\Hello;
@@ -76,7 +77,7 @@ class Connection
     private function read(): Generic
     {
         $data = $this->socket->read();
-        $buffer = new Buffer($data);
+        $buffer = new ByteBuffer($data);
 
         return Generic::fromBuffer($buffer, $this->secret);
     }
