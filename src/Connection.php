@@ -46,7 +46,7 @@ class Connection
 
         $this->logger->debug(sprintf('Response id=%d, data="%s"', $id, json_encode($result)));
 
-        return new Response($result['id'], $result['result']);
+        return new Response($result['id'], $result);
     }
 
     private function handshake(): ?Handshake
