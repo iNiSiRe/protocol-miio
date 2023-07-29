@@ -2,8 +2,7 @@
 
 namespace inisire\Protocol\MiIO;
 
-use inisire\fibers\Contract\Socket;
-use inisire\fibers\Contract\SocketFactory;
+use inisire\fibers\Network\UDP\DatagramSocket;
 use inisire\Protocol\ByteBuffer;
 use Psr\Log\LoggerInterface;
 use inisire\Protocol\MiIO\Packet\Call;
@@ -12,7 +11,7 @@ use inisire\Protocol\MiIO\Packet\Generic;
 
 class Connection
 {
-    private Socket $socket;
+    private DatagramSocket $socket;
 
     private ?Handshake $handshake = null;
 
@@ -20,15 +19,9 @@ class Connection
         private readonly string          $host,
         private readonly string          $secret,
         private readonly LoggerInterface $logger,
-        private readonly SocketFactory   $socketFactory
     )
     {
-        $this->socket = $this->socketFactory->createUDP();
-    }
-
-    public function __destruct()
-    {
-        $this->socket->close();
+        $this->socket = new DatagramSocket();
     }
 
     public function call(int $id, string $method, array $params = []): Response
